@@ -1,15 +1,14 @@
 import { Controller, Get } from "@nestjs/common";
 import { UserDto } from "./user.dto";
+import { UserService } from "./user.service";
 
 @Controller('users')
 
 export class UserController{
-    constructor() {}
+    constructor(private readonly userService:UserService) {}
 
   @Get()
-  getAll():UserDto{
-
-    return {id:1, name: 'sahadat', email: 'sahadatjh@gmail.com', password: 'ERTYHhgk'};
+  getAll():Promise<UserDto>{
+    return this.userService.getUsers();
   }
-
 }
