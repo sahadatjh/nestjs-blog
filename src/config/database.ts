@@ -1,5 +1,5 @@
 
-export default () => ({
+export default {
     client: process.env.DATABASE_CLIENT || 'postgresql',
     connection: {
       host: process.env.DATABASE_HOST,
@@ -25,5 +25,5 @@ export default () => ({
       directory: process.env.DATABASE_SEED_DIRECTORY
     },
     searchPath: [process.env.DATABASE_DEFAULT_SCHEMA || 'public']
-});
+};
   

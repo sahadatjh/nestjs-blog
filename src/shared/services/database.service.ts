@@ -1,7 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import knex from "knex";
 import { IDatabaseService } from "../../common/interfaces/IDatabaseService";
-import { ConfigService } from "@nestjs/config";
+import { ConfigService } from "nestjs-config";
+
 
 @Injectable()
 export class DatabaseService implements IDatabaseService {
@@ -18,26 +19,26 @@ export class DatabaseService implements IDatabaseService {
     async getConnection(): Promise<any> {
         if (!this._knexConnection) {
             this._knexConnection = knex({
-                client: this.configurationService.get('client'),
-                connection: `postgresql://${this.configurationService.get('connection.user')}:${this.configurationService.get('connection.password')}@${this.configurationService.get('connection.host')}/${this.configurationService.get('connection.database')}?timezone=utc&application_name=blog`,
+                client: this.configurationService.get('database.client'),
+                connection: `postgresql://${this.configurationService.get('database.connection.user')}:${this.configurationService.get('database.connection.password')}@${this.configurationService.get('database.connection.host')}/${this.configurationService.get('database.connection.database')}?timezone=utc&application_name=blog`,
                 pool: {
-                    min: this.configurationService.get('pool.min'),
-                    max: this.configurationService.get('pool.max'),
-                    idleTimeoutMillis: this.configurationService.get('pool.idleTimeoutMillis'),
-                    acquireTimeoutMillis: this.configurationService.get('pool.acquireTimeoutMillis'),
+                    min: this.configurationService.get('database.pool.min'),
+                    max: this.configurationService.get('database.pool.max'),
+                    idleTimeoutMillis: this.configurationService.get('database.pool.idleTimeoutMillis'),
+                    acquireTimeoutMillis: this.configurationService.get('database.pool.acquireTimeoutMillis'),
                     propagateCreateError: false
                 } as any,
                 acquireConnectionTimeout: this.configurationService.get('acquireConnectionTimeout'),
                 migrations: {
-                    tableName: this.configurationService.get('migrations.tableName'),
-                    directory: this.configurationService.get('common.base.directory') + this.configurationService.get('migrations.directory'),
+                    tableName: this.configurationService.get('database.migrations.tableName'),
+                    directory: this.configurationService.get('database.common.base.directory') + this.configurationService.get('database.migrations.directory'),
                     loadExtensions: ['.js']
                 },
                 seeds: {
-                    directory: this.configurationService.get('common.base.directory') + this.configurationService.get('seeds.directory'),
+                    directory: this.configurationService.get('database.common.base.directory') + this.configurationService.get('database.seeds.directory'),
                     loadExtensions: ['.js']
                 },
-                searchPath: this.configurationService.get('searchPath') as string[]
+                searchPath: this.configurationService.get('database.searchPath') as string[]
             });
         }
         return this._knexConnection;
