@@ -1,5 +1,5 @@
-import { Controller, Get } from "@nestjs/common";
-import { UserDto } from "./user.dto";
+import { Body, Controller, Get, Post } from "@nestjs/common";
+import { UserDto, UserRequestDto } from "./user.dto";
 import { UserService } from "./user.service";
 
 @Controller('users')
@@ -10,5 +10,10 @@ export class UserController{
   @Get()
   getAll():Promise<UserDto>{
     return this.userService.getUsers();
+  }
+
+  @Post()
+  createUser(@Body() payload:UserRequestDto): Promise<boolean>{
+    return this.userService.createUser(payload);
   }
 }

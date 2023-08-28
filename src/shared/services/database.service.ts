@@ -31,7 +31,7 @@ export class DatabaseService implements IDatabaseService {
                 acquireConnectionTimeout: this.configurationService.get('acquireConnectionTimeout'),
                 migrations: {
                     tableName: this.configurationService.get('database.migrations.tableName'),
-                    directory: this.configurationService.get('database.common.base.directory') + this.configurationService.get('database.migrations.directory'),
+                    directory: this.configurationService.get('common.base.directory') + this.configurationService.get('database.migrations.directory'),
                     loadExtensions: ['.js']
                 },
                 seeds: {
