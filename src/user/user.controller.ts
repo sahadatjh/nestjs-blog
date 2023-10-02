@@ -13,7 +13,7 @@ export class UserController{
   }
 
   @Post()
-  createUser(@Body() payload:UserRequestDto): Promise<boolean>{
+  createUser(@Body() payload: UserRequestDto): Promise<boolean>{
     return this.userService.createUser(payload);
   }
 }

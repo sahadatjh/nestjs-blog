@@ -1,5 +1,4 @@
-import { Expose } from "class-transformer";
-import { IsNumber, IsOptional, IsString } from "class-validator";
+import { IsNumber, IsOptional, IsString, Length, MaxLength, MinLength } from "class-validator";
 
 export class UserDto{
     @IsNumber()
@@ -17,22 +16,22 @@ export class UserDto{
 
 export class UserRequestDto{
     @IsOptional()
-    @IsNumber()
-    id?: number;
-
-    @IsOptional()
     @IsString()
+    @Length(2, 50)
     first_name: string;
 
     @IsOptional()
     @IsString()
+    @Length(2, 50)
     last_name: string;
 
-    @IsOptional()
+    @MinLength(2)
     @IsString()
+    @Length(2, 50)
     username: string;
 
     @IsString()
+    @MaxLength(50)
     email: string;
 
     @IsString()
