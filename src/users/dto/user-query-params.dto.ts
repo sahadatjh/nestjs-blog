@@ -9,7 +9,8 @@ export class UserSortDto{
     @IsNotEmpty()
     @IsIn([
         'id',
-        'first_name',
+        'firstName',
+        'username',
         'email'
     ])
     field: string;
