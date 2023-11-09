@@ -1,14 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { UserDto, UserRequestDto } from "./user.dto";
-import { UserDao } from "./user.dao";
+import { UserResponseDto, UserRequestDto } from "../dto/user.dto";
+import { UserDao } from "../dao/user.dao";
 import * as bcrypt from 'bcrypt';
+import { UserQueryParamsDto } from "../dto/user-query-params.dto";
 
 @Injectable()
 export class UserService{
     constructor (private readonly userDao:UserDao){}
 
-    getUsers(): Promise<UserDto>{
-        return this.userDao.getUsers();
+    getUsers(query: UserQueryParamsDto): Promise<Array<UserResponseDto>>{
+        return this.userDao.getUsers(query);
     }
 
     async getUserByUsernameOrEmail(){

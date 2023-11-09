@@ -1,8 +1,15 @@
+import { Expose } from "class-transformer";
 import { IsNumber, IsOptional, IsString, Length, MaxLength, MinLength } from "class-validator";
 
-export class UserDto{
+export class UserResponseDto{
     @IsNumber()
     id: number;
+
+    @IsString()
+    firstName: string;
+
+    @IsString()
+    lastName: string;
 
     @IsString()
     username: string;
