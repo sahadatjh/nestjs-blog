@@ -19,11 +19,16 @@ export class UserSortDto{
 export class UserSearchDto{
     @IsOptional()
     @IsNumber()
+    @Transform(raw=> +raw?.value)
     id?: number;
 
     @IsOptional()
     @IsString()
     email: string;
+
+    @IsOptional()
+    @IsString()
+    username: string;
 }
 
 export class UserPaginationDto{

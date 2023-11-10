@@ -11,7 +11,7 @@ export class UserDao{
 
     async getUsers(query: UserQueryParamsDto): Promise<Array<UserResponseDto>>{
         const db = await this.databaseService.getConnection();
-
+console.log('\nparams------------>',query?.search);
         const sortFieldmap = {
             'id'        : 'u.id',
             'firstName' : 'u.first_name',
@@ -37,7 +37,18 @@ export class UserDao{
         if (query?.sort) {
             sql.orderBy(query?.sort?.field, query?.sort?.type);
         }
-        return knexnest(sql).then(data => plainToClass(UserResponseDto, data));
+
+        if (query?.search?.id) {
+            sql.where('u.id', +query?.search?.id);
+        }
+        if (query?.search?.email) {
+            sql.where('u.email', query?.search?.email);
+        }
+        if (query?.search?.username) {
+            sql.where('u.username', query?.search?.username);
+        }
+
+        return knexnest(sql).then(data => plainToClass(UserResponseDto, data? data : []));
     }
 
     async createUser(user:UserRequestDto): Promise<boolean>{
