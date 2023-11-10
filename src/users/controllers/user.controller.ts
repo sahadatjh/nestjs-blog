@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, UseInterceptors, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, Query, UseInterceptors, ValidationPipe } from "@nestjs/common";
 import { UserService } from "../services/user.service";
 import { UserQueryParamsDto } from "../dto/user-query-params.dto";
 import { UserResponseDto, UserRequestDto } from "../dto/user.dto";
@@ -28,5 +28,10 @@ export class UserController{
   @Post()
   createUser(@Body() payload: UserRequestDto): Promise<boolean>{
     return this.userService.createUser(payload);
+  }
+
+  @Put('/:id')
+  updateUser(@Param('id') id: number, @Body() reqBody: UserRequestDto){
+    console.log('\nreq------------>',id, reqBody);
   }
 }

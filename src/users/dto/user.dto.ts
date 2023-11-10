@@ -25,24 +25,27 @@ export class UserRequestDto{
     @IsOptional()
     @IsString()
     @Length(2, 50)
-    first_name: string;
+    first_name?: string;
 
     @IsOptional()
     @IsString()
     @Length(2, 50)
-    last_name: string;
+    last_name?: string;
 
+    @IsOptional()
     @MinLength(2)
     @IsString()
     @Length(2, 50)
-    username: string;
+    username?: string;
 
+    @IsOptional()
     @IsString()
     @MaxLength(50)
-    email: string;
+    email?: string;
 
+    @IsOptional()
     @IsString()
-    password: string;
+    password?: string;
 
     @IsOptional()
     @IsNumber()
