@@ -32,13 +32,15 @@ export class UserSearchDto{
 }
 
 export class UserPaginationDto{
+    @IsOptional()
     @IsNumber()
     @Transform(raw=> +raw?.value)
-    offset: number;
+    offset?: number;
 
+    @IsOptional()
     @IsNumber()
     @Transform(raw=> +raw?.value)
-    limit: number;
+    limit?: number;
     
 }
 
