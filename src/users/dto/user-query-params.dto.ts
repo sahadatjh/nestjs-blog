@@ -1,7 +1,7 @@
 import { Expose, Transform, Type } from "class-transformer";
 import { IsIn, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 
-export class UserSortDto{
+export class UserSortDto {
     @IsNotEmpty()
     @IsIn(['asc', 'desc'])
     type: string;
@@ -16,10 +16,10 @@ export class UserSortDto{
     field: string;
 }
 
-export class UserSearchDto{
+export class UserSearchDto {
     @IsOptional()
     @IsNumber()
-    @Transform(raw=> +raw?.value)
+    @Transform(raw => +raw?.value)
     id?: number;
 
     @IsOptional()
@@ -31,32 +31,32 @@ export class UserSearchDto{
     username: string;
 }
 
-export class UserPaginationDto{
+export class UserPaginationDto {
     @IsOptional()
     @IsNumber()
-    @Transform(raw=> +raw?.value)
+    @Transform(raw => +raw?.value)
     offset?: number;
 
     @IsOptional()
     @IsNumber()
-    @Transform(raw=> +raw?.value)
+    @Transform(raw => +raw?.value)
     limit?: number;
-    
+
 }
 
-export class UserQueryParamsDto{
+export class UserQueryParamsDto {
     @IsOptional()
     @ValidateNested()
-    @Type(()=> UserSortDto)
+    @Type(() => UserSortDto)
     sort?: UserSortDto;
 
     @IsOptional()
     @ValidateNested()
-    @Type(()=> UserSearchDto)
+    @Type(() => UserSearchDto)
     search?: UserSearchDto;
 
     @IsOptional()
     @ValidateNested()
-    @Type(()=> UserPaginationDto)
+    @Type(() => UserPaginationDto)
     pagination?: UserPaginationDto;
 }

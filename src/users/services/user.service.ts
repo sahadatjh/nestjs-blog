@@ -1,8 +1,9 @@
-import { Injectable } from "@nestjs/common";
-import { UserResponseDto, UserRequestDto } from "../dto/user.dto";
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { UserResponseDto, UserRequestDto, UserUpdateDto } from "../dto/user.dto";
 import { UserDao } from "../dao/user.dao";
 import * as bcrypt from 'bcrypt';
-import { UserQueryParamsDto } from "../dto/user-query-params.dto";
+import { UserQueryParamsDto, UserSearchDto } from "../dto/user-query-params.dto";
+import { instanceToPlain } from "class-transformer";
 
 @Injectable()
 export class UserService{
@@ -10,11 +11,6 @@ export class UserService{
 
     getUsers(query: UserQueryParamsDto): Promise<Array<UserResponseDto>>{
         return this.userDao.getUsers(query);
-    }
-
-    async getUserByUsernameOrEmail(){
-
-        return null;
     }
 
     async createUser(payload: UserRequestDto): Promise<boolean>{
@@ -26,5 +22,19 @@ export class UserService{
         payload["created_at"] = current_time; 
         payload["updated_at"] = current_time; 
         return this.userDao.createUser(payload);
+    }
+
+    async updateUser(id: number, payload: UserUpdateDto): Promise<number>{
+        const queryParams = new UserQueryParamsDto(); 
+        const search = new UserSearchDto(); 
+        search.id = +id;
+        queryParams.search = search;
+
+        const user = await this.getUsers(queryParams);
+        if (user?.length < 1) {
+            throw new NotFoundException('User not found');
+        }
+        payload.updatedAt = (new Date()).valueOf();
+        return this.userDao.updateUser(id, payload);
     }
 }

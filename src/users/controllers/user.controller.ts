@@ -1,7 +1,7 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Put, Query, UseInterceptors, ValidationPipe } from "@nestjs/common";
 import { UserService } from "../services/user.service";
 import { UserQueryParamsDto } from "../dto/user-query-params.dto";
-import { UserResponseDto, UserRequestDto } from "../dto/user.dto";
+import { UserResponseDto, UserRequestDto, UserUpdateDto } from "../dto/user.dto";
 import { LoggerService } from "../../shared/services/logger.service";
 import { ResponseTransformerInterceptor } from "../../common/interceptors/response-transformer.interceptor";
 
@@ -27,11 +27,27 @@ export class UserController{
 
   @Post()
   createUser(@Body() payload: UserRequestDto): Promise<boolean>{
-    return this.userService.createUser(payload);
+    try {
+      return this.userService.createUser(payload);
+    } catch (e) {
+      this.loggerService.error(`Failed to create users: ${e?.message}`, e?.stack, UserController?.name);
+      throw new HttpException({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: e?.message
+      }, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 
   @Put('/:id')
-  updateUser(@Param('id') id: number, @Body() reqBody: UserRequestDto){
-    console.log('\nreq------------>',id, reqBody);
+  updateUser(@Param('id') id: number, @Body() reqBody: UserUpdateDto): Promise<number>{
+    try {
+      return this.userService.updateUser(id, reqBody);
+    } catch (e) {
+      this.loggerService.error(`Failed to update users: ${e?.message}`, e?.stack, UserController?.name);
+      throw new HttpException({
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        message: e?.message
+      }, HttpStatus.INTERNAL_SERVER_ERROR)
+    }
   }
 }

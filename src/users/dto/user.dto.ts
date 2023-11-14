@@ -1,4 +1,4 @@
-import { Expose } from "class-transformer";
+import { Expose, Transform } from "class-transformer";
 import { IsNumber, IsOptional, IsString, Length, MaxLength, MinLength } from "class-validator";
 
 export class UserResponseDto{
@@ -32,26 +32,41 @@ export class UserRequestDto{
     @Length(2, 50)
     last_name?: string;
 
-    @IsOptional()
     @MinLength(2)
     @IsString()
     @Length(2, 50)
-    username?: string;
+    username: string;
 
-    @IsOptional()
     @IsString()
     @MaxLength(50)
-    email?: string;
+    email: string;
 
     @IsOptional()
     @IsString()
+    @MinLength(8)
+    @MaxLength(32)
     password?: string;
 
     @IsOptional()
     @IsNumber()
     created_at?: number;
+}
+
+export class UserUpdateDto{
+    @IsOptional()
+    @IsString()
+    @Length(2, 50)
+    @Expose({name: 'first_name', toPlainOnly: true})
+    firstName?: string;
+
+    @IsOptional()
+    @IsString()
+    @Length(2, 50)
+    @Expose({name: 'last_name', toPlainOnly: true})
+    lastName?: string;
 
     @IsOptional()
     @IsNumber()
-    updated_at?: number;
+    @Expose({name: 'updated_at', toPlainOnly: true})
+    updatedAt?: number;
 }

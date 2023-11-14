@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
-import { UserResponseDto, UserRequestDto } from "../dto/user.dto";
+import { UserResponseDto, UserRequestDto, UserUpdateDto } from "../dto/user.dto";
 import { DatabaseService } from "../../shared/services/database.service";
 import * as knexnest from 'knexnest';
-import {plainToClass} from "class-transformer";
+import {instanceToPlain, plainToClass} from "class-transformer";
 import { UserQueryParamsDto, UserSortDto } from "../dto/user-query-params.dto";
 
 @Injectable()
@@ -61,5 +61,10 @@ export class UserDao{
     async createUser(user:UserRequestDto): Promise<boolean>{
         const db = await this.databaseService.getConnection();
         return db.insert(user).returning('id').into('users');
+    }
+
+    async updateUser(id: number, payload: UserUpdateDto): Promise<number>{
+        const db = await this.databaseService.getConnection();
+        return db.update(instanceToPlain(payload)).where('id', +id).returning('id').into('users');
     }
 }
