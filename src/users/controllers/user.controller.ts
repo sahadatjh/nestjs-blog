@@ -28,6 +28,7 @@ export class UserController{
   @Post()
   createUser(@Body() payload: UserRequestDto): Promise<boolean>{
     try {
+      console.log('\nreq------------>',payload);
       return this.userService.createUser(payload);
     } catch (e) {
       this.loggerService.error(`Failed to create users: ${e?.message}`, e?.stack, UserController?.name);

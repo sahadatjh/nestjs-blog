@@ -60,7 +60,7 @@ export class UserDao{
 
     async createUser(user:UserRequestDto): Promise<boolean>{
         const db = await this.databaseService.getConnection();
-        return db.insert(user).returning('id').into('users');
+        return db.insert(instanceToPlain(user)).returning('id').into('users');
     }
 
     async updateUser(id: number, payload: UserUpdateDto): Promise<number>{

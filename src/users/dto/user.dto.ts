@@ -25,14 +25,15 @@ export class UserRequestDto{
     @IsOptional()
     @IsString()
     @Length(2, 50)
-    first_name?: string;
+    @Expose({name: 'first_name', toPlainOnly: true})
+    firstName?: string;
 
     @IsOptional()
     @IsString()
     @Length(2, 50)
-    last_name?: string;
+    @Expose({name: 'last_name', toPlainOnly: true})
+    lastName?: string;
 
-    @MinLength(2)
     @IsString()
     @Length(2, 50)
     username: string;
@@ -41,15 +42,15 @@ export class UserRequestDto{
     @MaxLength(50)
     email: string;
 
-    @IsOptional()
     @IsString()
     @MinLength(8)
     @MaxLength(32)
-    password?: string;
+    password: string;
 
     @IsOptional()
     @IsNumber()
-    created_at?: number;
+    @Expose({name: 'created_at', toPlainOnly: true})
+    createdAt?: number;
 }
 
 export class UserUpdateDto{
