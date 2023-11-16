@@ -5,7 +5,7 @@ import { UserResponseDto, UserRequestDto, UserUpdateDto } from "../dto/user.dto"
 import { LoggerService } from "../../shared/services/logger.service";
 import { ResponseTransformerInterceptor } from "../../common/interceptors/response-transformer.interceptor";
 
-@Controller('users')
+@Controller('api/users')
 @UseInterceptors(ResponseTransformerInterceptor)
 
 export class UserController{
